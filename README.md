@@ -62,6 +62,11 @@ URL:    http://localhost:8080/api/products/{idProducto}
 Metodo: GET
 
 
+Swagger
+-------------
+Se incluye herramienta Swagger para la documentacion de la API. Esta se despliega cuando se levanta la aplicacion.
+URL:    http://localhost:8080/swagger-ui/index.html
+
 Tecnologías Utilizadas
 -------------
 - Spring Boot 
