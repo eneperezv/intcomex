@@ -11,9 +11,23 @@ La arquitectura de la API de Productos sigue el patrón de diseño de capas com�
 
 [![Arquitectura](https://soluvial.co/mithrandir/apiRest/Imagen1.png "Arquitectura")](https://soluvial.co/mithrandir/apiRest/Imagen1.png "Arquitectura")
 
+Instrucciones
+-------------
+- Clonar repositorio a local.
+- Importar a IDE de preferencia (Usamos Eclipse 2024-03 4.31.0)
+- En el directorio docs se encuentra un archivo SQL para incializar la base de datos.
+- Se debe modificar el archivo application.properties para la conexion a su base de datos local.
+<pre>
+spring.datasource.url= jdbc:mysql://localhost:3306/intcomex?useSSL=false
+spring.datasource.username= root
+spring.datasource.password= 
+</pre>
+- Ejecutar la aplicacion como Spring Boot Application
+	- Clic derecho sobre el proyecto
+	- Run as > Spring Boot App
+
 Endpoints
 -------------
-
 Crear Categoría
 URL:    http://localhost:8080/api/category
 Metodo: POST
