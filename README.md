@@ -11,6 +11,43 @@ La arquitectura de la API de Productos sigue el patrón de diseño de capas com�
 
 [![Arquitectura](https://soluvial.co/mithrandir/apiRest/Imagen1.png "Arquitectura")](https://soluvial.co/mithrandir/apiRest/Imagen1.png "Arquitectura")
 
+Endpoints
+-------------
+
+Crear Categoría
+URL:    http://localhost:8080/api/category
+Metodo: POST
+Recibe: JSON
+<pre>
+{
+    "categoryName": "CLOUD",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "picture": "-"
+}
+</pre>
+
+Consultar Todas las Categorías
+URL:    http://localhost:8080/api/categories
+Metodo: GET
+
+Consultar Categoría por ID
+URL:    http://localhost:8080/api/categories/{idCategoria}
+Metodo: GET
+
+Crear Productos
+URL:    http://localhost:8080/api/product
+Metodo: POST
+ATENCION: Este metodo crea 100.000 registros en la base de datos según la solicitud. El proceso demora aproximadamente 2 minutos y medio.
+
+Consultar Todos los Productos
+URL:    http://localhost:8080/api/products?pageNumber={numeroPagina}&pageSize={tamañoPagina}
+Metodo: GET
+
+Consultar Producto por ID
+URL:    http://localhost:8080/api/products/{idProducto}
+Metodo: GET
+
+
 Tecnologías Utilizadas
 -------------
 - Spring Boot 
