@@ -3,8 +3,8 @@ USE intcomex;
 
 CREATE TABLE IF NOT EXISTS Shippers(
     Shipper_ID int NOT NULL AUTO_INCREMENT,
-    Company_Name varchar(250) NOT NULL,
-    Phone varchar(50) NOT NULL,
+    Company_Name varchar(250) NOT NULL DEFAULT '',
+    Phone varchar(50) NOT NULL DEFAULT '',
     PRIMARY KEY (Shipper_ID)
 );
 
@@ -13,7 +13,7 @@ INSERT INTO Shippers(Company_Name,Phone) VALUES('DHL','4553434');
 
 CREATE TABLE IF NOT EXISTS Categories(
     Category_ID int NOT NULL AUTO_INCREMENT,
-    Category_Name varchar(250) NOT NULL,
+    Category_Name varchar(250) NOT NULL DEFAULT '',
     Description varchar(250) NULL,
     Picture varchar(250) NULL,
     PRIMARY KEY (Category_ID)
@@ -21,15 +21,15 @@ CREATE TABLE IF NOT EXISTS Categories(
 
 CREATE TABLE IF NOT EXISTS Customers(
     Customer_ID int NOT NULL AUTO_INCREMENT,
-    Company_Name varchar(250) NOT NULL,
-    Contact_Name varchar(250) NOT NULL,
+    Company_Name varchar(250) NOT NULL DEFAULT '',
+    Contact_Name varchar(250) NOT NULL DEFAULT '',
     Contact_Title varchar(30) NULL,
-    Address varchar(250) NOT NULL,
+    Address varchar(250) NOT NULL DEFAULT '',
     City varchar(50) NULL,
     Region varchar(50) NULL,
     Postal_Code varchar(10) NULL,
     Country varchar(50) NULL,
-    Phone varchar(50) NOT NULL,
+    Phone varchar(50) NOT NULL DEFAULT '',
     Fax varchar(50) NULL,
     PRIMARY KEY (Customer_ID)
 );
@@ -39,15 +39,15 @@ INSERT INTO Customers(Company_Name,Contact_Name,Phone) VALUES('Harmony & Revital
 
 CREATE TABLE IF NOT EXISTS Suppliers (
     Supplier_ID int NOT NULL AUTO_INCREMENT,
-    Company_Name varchar(250) NOT NULL,
-    Contact_Name varchar(250) NOT NULL,
+    Company_Name varchar(250) NOT NULL DEFAULT '',
+    Contact_Name varchar(250) NOT NULL DEFAULT '',
     Contact_Title varchar(30) NULL,
-    Address varchar(250) NOT NULL,
+    Address varchar(250) NOT NULL DEFAULT '',
     City varchar(50) NULL,
     Region varchar(50) NULL,
     Postal_Code varchar(10) NULL,
     Country varchar(50) NULL,
-    Phone varchar(50) NOT NULL,
+    Phone varchar(50) NOT NULL DEFAULT '',
     Fax varchar(50) NULL,
     Home_Page varchar(150) NULL,
     PRIMARY KEY (Supplier_ID)
@@ -59,19 +59,19 @@ INSERT INTO Suppliers(Company_Name,Contact_Name,Address,Phone) VALUES('Will & Co
 
 CREATE TABLE IF NOT EXISTS Employees (
     Employee_ID int NOT NULL AUTO_INCREMENT,
-    Last_Name varchar(100) NOT NULL,
-    First_Name varchar(100) NOT NULL,
+    Last_Name varchar(100) NOT NULL DEFAULT '',
+    First_Name varchar(100) NOT NULL DEFAULT '',
     Title varchar(30) NULL,
     Title_Of_Courtesy varchar(30) NULL,
-    Birth_Date datetime NOT NULL,
-    Hire_Date datetime NOT NULL,
-    Address varchar(250) NOT NULL,
+    Birth_Date datetime NOT NULL DEFAULT '1990-01-01',
+    Hire_Date datetime NOT NULL DEFAULT '1990-01-01',
+    Address varchar(250) NOT NULL DEFAULT '',
     City varchar(50) NULL,
     Region varchar(50) NULL,
     Postal_Code varchar(10) NULL,
     Country varchar(50) NULL,
-    Home_Phone varchar(50) NOT NULL,
-    Extension varchar(10) NOT NULL,
+    Home_Phone varchar(50) NOT NULL DEFAULT '',
+    Extension varchar(10) NOT NULL DEFAULT '',
     Photo varchar(250) NULL,
     Notes text NULL,
     Reports_To int NOT NULL,
@@ -87,14 +87,14 @@ INSERT INTO Employees(Last_Name,First_Name,Birth_Date,Hire_Date,Address,Home_Pho
 CREATE TABLE IF NOT EXISTS Products (
     Product_ID int NOT NULL AUTO_INCREMENT,
     Product_Name varchar(250) NULL,
-    Supplier_ID int NOT NULL,
-    Category_ID int NOT NULL,
-    Quantity_Per_Unit int NOT NULL,
-    Unit_Price double NOT NULL,
-    Units_In_Stock int NOT NULL,
-    Units_On_Order int NOT NULL,
-    Reorder_Level int NOT NULL,
-    Discontinued boolean NOT NULL,
+    Supplier_ID int NOT NULL DEFAULT 0,
+    Category_ID int NOT NULL DEFAULT 0,
+    Quantity_Per_Unit int NOT NULL DEFAULT 0,
+    Unit_Price double NOT NULL DEFAULT 0,
+    Units_In_Stock int NOT NULL DEFAULT 0,
+    Units_On_Order int NOT NULL DEFAULT 0,
+    Reorder_Level int NOT NULL DEFAULT 0,
+    Discontinued boolean NOT NULL DEFAULT 0,
     PRIMARY KEY (Product_ID),
     CONSTRAINT FK_ProductSupplier FOREIGN KEY (Supplier_ID) REFERENCES Suppliers(Supplier_ID),
     CONSTRAINT FK_ProductCategory FOREIGN KEY (Category_ID) REFERENCES Categories(Category_ID)
@@ -102,13 +102,13 @@ CREATE TABLE IF NOT EXISTS Products (
 
 CREATE TABLE IF NOT EXISTS Orders(
     Order_ID int NOT NULL AUTO_INCREMENT,
-    Customer_ID int NOT NULL,
-    Employee_ID int NOT NULL,
-    Order_Date datetime NOT NULL,
-    Required_Date datetime NOT NULL,
+    Customer_ID int NOT NULL DEFAULT 0,
+    Employee_ID int NOT NULL DEFAULT 0,
+    Order_Date datetime NOT NULL DEFAULT '1990-01-01',
+    Required_Date datetime NOT NULL DEFAULT '1990-01-01',
     Shipped_Date datetime NULL,
-    Ship_Via int NOT NULL,
-    Shipper_ID int NOT NULL,
+    Ship_Via int NOT NULL DEFAULT 0,
+    Shipper_ID int NOT NULL DEFAULT 0,
     Freight varchar(250) NULL,
     Ship_Name varchar(250) NULL,
     Ship_Address varchar(250) NULL,
@@ -123,10 +123,10 @@ CREATE TABLE IF NOT EXISTS Orders(
 );
 
 CREATE TABLE IF NOT EXISTS OrderDetails(
-    Order_ID int NOT NULL,
-    Product_ID int NOT NULL,
-    Unit_Price double NOT NULL,
-    Quantity int NOT NULL,
-    Discount double NOT NULL,
+    Order_ID int NOT NULL DEFAULT 0,
+    Product_ID int NOT NULL DEFAULT 0,
+    Unit_Price double NOT NULL DEFAULT 0,
+    Quantity int NOT NULL DEFAULT 0,
+    Discount double NOT NULL DEFAULT 0,
     PRIMARY KEY (Order_ID,Product_ID)
 );

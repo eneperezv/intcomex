@@ -1,5 +1,6 @@
 package com.eenp.intcomexapi;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.eenp.intcomexapi.controller.ProductController;
+import com.eenp.intcomexapi.entity.Category;
 import com.eenp.intcomexapi.entity.Product;
 import com.eenp.intcomexapi.repository.ProductRepository;
 
@@ -75,6 +77,71 @@ public class ProductControllerTest {
 	    ;
 		
 	}
+	
+	@Test
+    public void testGetProducts() throws Exception {
+        // Crear datos de prueba
+        Product product = new Product();
+        product.setProductId(2);
+        product.setProductName("Cardify");
+        product.setSupplierId(1);
+        product.setCategoryId(2);
+        Category category = new Category();
+        category.setCategoryId(2);
+        category.setCategoryName("CLOUD");
+        category.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry...");
+        category.setPicture("https://cdn.pixabay.com/photo/2024/01/26/08/07/ai-generated-8533603_1280.jpg");
+        product.setCategory(category);
+        product.setQuantityPerUnit(7);
+        product.setUnitPrice(101.32);
+        product.setUnitsInStock(16);
+        product.setUnitsOnOrders(120);
+        product.setReorderLevel(1);
+        product.setDiscontinued(true);
+
+        List<Product> products = List.of(product);
+        Page<Product> productPage = new PageImpl<>(products, PageRequest.of(1, 1), 100000);
+
+        // Mockear el repositorio
+        when(productRepository.findAll((Pageable) any(Pageable.class))).thenReturn(productPage);
+
+        // Realizar la solicitud y verificar la respuesta
+        mockMvc.perform(get("/products?pageNumber=1&pageSize=1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").value(100000))
+                .andExpect(jsonPath("$.totalPages").value(100000))
+                .andExpect(jsonPath("$.size").value(1))
+                .andExpect(jsonPath("$.content[0].productId").value(2))
+                .andExpect(jsonPath("$.content[0].productName").value("Cardify"))
+                .andExpect(jsonPath("$.content[0].supplierId").value(1))
+                .andExpect(jsonPath("$.content[0].categoryId").value(2))
+                .andExpect(jsonPath("$.content[0].category.categoryId").value(2))
+                .andExpect(jsonPath("$.content[0].category.categoryName").value("CLOUD"))
+                .andExpect(jsonPath("$.content[0].category.description").value("Lorem Ipsum is simply dummy text of the printing and typesetting industry..."))
+                .andExpect(jsonPath("$.content[0].category.picture").value("https://cdn.pixabay.com/photo/2024/01/26/08/07/ai-generated-8533603_1280.jpg"))
+                .andExpect(jsonPath("$.content[0].quantityPerUnit").value(7))
+                .andExpect(jsonPath("$.content[0].unitPrice").value(101.32))
+                .andExpect(jsonPath("$.content[0].unitsInStock").value(16))
+                .andExpect(jsonPath("$.content[0].unitsOnOrder").value(120))
+                .andExpect(jsonPath("$.content[0].reorderLevel").value(1))
+                .andExpect(jsonPath("$.content[0].discontinued").value(true))
+                .andExpect(jsonPath("$.number").value(1))
+                .andExpect(jsonPath("$.sort.empty").value(true))
+                .andExpect(jsonPath("$.sort.sorted").value(false))
+                .andExpect(jsonPath("$.sort.unsorted").value(true))
+                .andExpect(jsonPath("$.first").value(false))
+                .andExpect(jsonPath("$.last").value(false))
+                .andExpect(jsonPath("$.numberOfElements").value(1))
+                .andExpect(jsonPath("$.pageable.pageNumber").value(1))
+                .andExpect(jsonPath("$.pageable.pageSize").value(1))
+                .andExpect(jsonPath("$.pageable.sort.empty").value(true))
+                .andExpect(jsonPath("$.pageable.sort.sorted").value(false))
+                .andExpect(jsonPath("$.pageable.sort.unsorted").value(true))
+                .andExpect(jsonPath("$.pageable.offset").value(1))
+                .andExpect(jsonPath("$.pageable.paged").value(true))
+                .andExpect(jsonPath("$.pageable.unpaged").value(false))
+                .andExpect(jsonPath("$.empty").value(false));
+    }
 	/*
 	@Test
 	public void testMockMvcIsConfigured() throws Exception {
